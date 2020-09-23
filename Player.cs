@@ -12,6 +12,7 @@ namespace HelloWorld
         //player constructor
         public Player()
         {
+            //creates new item arry
             _inventory = new Item[3];
             _gold = 4;
         }

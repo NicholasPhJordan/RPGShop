@@ -21,12 +21,18 @@ namespace HelloWorld
         public Shop(Item[] item)
         {
             item = _inventory;
+            _gold = 4;
         }
 
         public bool Sell(Player player, int shopIndex, int playerIndex)
         {
-            if (player.Buy(_inventory[shopIndex], playerIndex))
+            //find item to buy in inventory
+            Item itemToBuy = _inventory[shopIndex];
+            //checks if purchase sucsesfully
+            if (player.Buy(itemToBuy, playerIndex))
             {
+                //increase shop gold buyt item cost to complete transaction 
+                _gold += itemToBuy.cost;
                 return true;
             }
             return false;

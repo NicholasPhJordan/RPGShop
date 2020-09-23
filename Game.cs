@@ -6,6 +6,13 @@ using System.Text;
 
 namespace HelloWorld
 {
+
+    struct Item
+    {
+        public string name;
+        public int cost;
+    }
+
     class Game
     {
         private Player _player;
@@ -18,16 +25,12 @@ namespace HelloWorld
 
         private void InitializeItems()
         {
-            _shopInventory = new Item[3];
             _arrow.name = "Arrow";
             _arrow.cost = 1;
-            _shopInventory[0] = new Item();
             _shield.name = "Shield";
             _shield.cost = 1;
-            _shield = _shopInventory[1];
             _bow.name = "Bow";
             _bow.cost = 1;
-            _bow = _shopInventory[2];
         }
 
         public void PrintInventory(Item[] inventory)
@@ -83,14 +86,15 @@ namespace HelloWorld
         //Performed once when the game begins
         public void Start()
         {
+            _player = new Player();
             InitializeItems();
+            _shopInventory = new Item[]{ _arrow, _shield, _bow };
+            _shop = new Shop(_shopInventory);
         }
 
         //Repeated until the game ends
         public void Update()
         {
-            _player = new Player();
-            _shop = new Shop();
             OpenShopMenu();
             _gameOver = true;
         }
