@@ -4,23 +4,20 @@ using System.Text;
 
 namespace HelloWorld
 {
-    struct Item
-    {
-        public int cost;
-        public string name;
-    }
 
     class Shop
     {
         private int _gold;
         private Item[] _inventory;
 
+        //shop constructor
         public Shop()
         {
             _inventory = new Item[3];
             _gold = 4;
         }
 
+        //overload shop constructor
         public Shop(Item[] item)
         {
             item = _inventory;
@@ -28,12 +25,20 @@ namespace HelloWorld
 
         public bool Sell(Player player, int shopIndex, int playerIndex)
         {
-            return player.Buy(_inventory[shopIndex], playerIndex);
+            if (player.Buy(_inventory[shopIndex], playerIndex))
+            {
+                return true;
+            }
+            return false;
         }
 
-        public void CheckPlayerFunds(Player player)
+        public bool CheckPlayerFunds(Player player)
         {
-            Console.WriteLine("You have " + player.GetGold() + " gold.");
+            if (player.GetGold() > 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
