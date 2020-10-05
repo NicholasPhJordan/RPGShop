@@ -44,30 +44,78 @@ namespace HelloWorld
 
         private void OpenShopMenu()
         {
-            Console.WriteLine("Hello Dearie. What can I do for you today?");
-            char input = ' ';
-            while(input != '1' && input != '2')
+            //Print a welcome message and all the choices to the screen
+            Console.WriteLine("Welcome! Please selct an item.");
+            PrintInventory(_shopInventory);
+
+            //Get player input
+            char input = Console.ReadKey().KeyChar;
+
+            //Set itemIndex to be the indec the player selected
+            int itemIndex = -1;
+            switch (input)
             {
-                Console.WriteLine("1. Buy");
-                Console.WriteLine("2. Sell");
-                Console.WriteLine("3. Inventory");
-                Console.Write("> ");
-                input = Console.ReadKey().KeyChar;
-                switch (input)
-                {
-                    case '1':
-                        Console.WriteLine("\nWhat would you like to buy Dearie?");
-                        PrintInventory(_shopInventory);
+                case '1':
+                    {
+                        itemIndex = 0;
                         break;
-                    case '2':
+                    }
+                case '2':
+                    {
+                        itemIndex = 1;
                         break;
-                    case '3':
-                        PrintInventory(_player.GetInventory());
-                        Console.WriteLine();
-                        OpenShopMenu();
+                    }
+                case '3':
+                    {
+                        itemIndex = 2;
                         break;
-                }
+                    }
+                default:
+                    {
+                        return;
+                    }
             }
+
+            //If the player can't afford the item print a message to let them know
+            if (_player.GetGold() < _shopInventory[itemIndex].cost)
+            {
+                Console.WriteLine("You cant afford this.");
+                return;
+            }
+
+            //Ask the player to replace a slot in their own inventory
+            Console.WriteLine("Choose a slot to replace.");
+            PrintInventory(_player.GetInventory());
+            //Get player input
+            input = Console.ReadKey().KeyChar;
+
+            //Set the value of the playerIndex based on the player's choice
+            int playerIndex = -1;
+            switch (input)
+            {
+                case '1':
+                    {
+                        playerIndex = 0;
+                        break;
+                    }
+                case '2':
+                    {
+                        playerIndex = 1;
+                        break;
+                    }
+                case '3':
+                    {
+                        playerIndex = 2;
+                        break;
+                    }
+                default:
+                    {
+                        return;
+                    }
+            }
+
+            //Sell item to player and replace the weapon at the index with the newly purchased weapon
+            _shop.Sell(_player, itemIndex, playerIndex);
         }
 
         //Run the game
